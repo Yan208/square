@@ -1,0 +1,129 @@
+#:kivy 2.1.0
+
+
+<Square>:
+  #self_square: self_square
+  size: 800, 800
+  pos: 0, 0
+  #p1_x: 30
+
+  canvas.after:
+    Color:
+      rgba: 1,1,1,1
+    
+    Line:
+      points: [root.p1_x, root.p1_y, 30, 700, 980, 1895, 980, 1005, 90, 1005]
+      width: 1
+    Line:
+      points: [90, 1005, 980, 1895]
+      width: 1
+    Line:
+      points: [90, 1895, 980, 1005]
+      width: 1
+    
+  Label:
+    id: a_label
+    pos: 490, 900
+    #font_size: 50
+    text: 'a'
+  
+  Label:
+    id: b_label
+    pos: 10, 1400
+    text: 'b'
+  
+  Label:
+    pos: a_label.pos[0], 1900
+    text: 'c'
+  
+  Label:
+    pos: 960, b_label.pos[1]
+    text: 'd'
+    
+  Label:
+    pos: 300, 1500
+    text: 'e'
+
+  Label:
+    pos: 650, 1500
+    text: 'f'
+    
+  Label:
+    pos: 40, 2100
+    size: 200, 50
+    text: 'a_coord: ' + str(round(root.a_coord))
+  
+  Label:
+    pos: 40, 2000
+    size: 200, 50
+    text: 'b_coord: ' + str(round(root.b_coord))
+  
+  Label:
+    pos: 340, 2100
+    size: 200, 50
+    text: 'c_coord: ' + str(round(root.c_coord))
+    
+  Label:
+    pos: 340, 2000
+    size: 200, 50
+    text: 'd_coord: ' + str(round(root.d_coord))
+    
+  Label:
+    pos: 640, 2100
+    size: 200, 50
+    text: 'e_coord: ' + str(round(root.e_coord))
+    
+  Label:
+    pos: 640, 2000
+    size: 200, 50
+    text: 'f_coord: ' + str(round(root.f_coord))
+    #Buttons:
+      #text: 'idi na huy'
+  
+  Buttons:
+    #size_hint: 1, 0.4
+    # не работает это почему-то
+    #pos: 300, 300
+    #size: 200, 200
+    #pos: 90, 90
+    #pos_hint: { 'x': 0.5, 'y': 0.1 }
+#    Label:
+#      text: 'fucker'
+  
+  #Labels:
+
+
+<Buttons>:
+  #self_square: self_square
+
+  #id: buttons
+  pos: 0, 0
+  size: 800, 800
+
+
+  Button:
+    id: up_but
+    text: 'up'
+    pos: root.width / 2 - self.size[0], self.size[1]
+    size: 50, 50
+    on_press: root.up()
+    
+  Button:
+    id: down_but
+    text: 'down'
+    pos: up_but.pos[0], up_but.pos[1]-up_but.size[1]
+    size: up_but.size[0], up_but.size[1]
+    on_press: root.down()
+  
+  Button:
+    text: 'left'
+    pos: up_but.pos[0]-up_but.size[0], up_but.pos[1]-up_but.size[1]
+    size: up_but.size[0], up_but.size[1]
+    on_press: root.left()
+    
+  Button:
+    text: 'right'
+    pos: up_but.pos[0]+up_but.size[0], up_but.pos[1]-up_but.size[1]
+    size: up_but.size[0], up_but.size[1]
+    on_press: root.right()
+    
