@@ -40,9 +40,12 @@ class Square(Widget):
   last_f_x_coord = NumericProperty(1)
   last_f_y_coord = NumericProperty(1)
 
+  # p1_x = 130
   p1_x = NumericProperty(130)
   p1_y = NumericProperty(200)
   square_side = NumericProperty(500)
+
+  d = NumericProperty(10)
   #p1_y = NumericProperty(200)
 
   def update(self, dt):
@@ -51,8 +54,8 @@ class Square(Widget):
   def remove_last(self, last_touch_x, last_touch_y):
     with self.canvas:
       Color(0, 0, 0)
-      d = 20.
-      Ellipse(pos=(last_touch_x - d / 2, last_touch_y - d / 2), size=(d, d))
+      #d = 20.
+      Ellipse(pos=(last_touch_x - self.d / 2, last_touch_y - self.d / 2), size=(self.d, self.d))
 
   def draw_new(self, touch_x, touch_y):
     print('draw new.')
@@ -60,8 +63,8 @@ class Square(Widget):
     print('touch_y:', round(touch_y))
     with self.canvas:
       Color(0.5, 1, 1)
-      d = 20.
-      Ellipse(pos=(touch_x - d / 2, touch_y - d / 2), size=(d, d))
+      #d = 20.
+      Ellipse(pos=(touch_x - self.d / 2, touch_y - self.d / 2), size=(self.d, self.d))
 
   def last_save(self):
     self.last_touch_x = self.touch_x
@@ -83,8 +86,8 @@ class Square(Widget):
     print('touch_y:', round(touch_y))
     with self.canvas:
       Color(1, 0, 0)
-      d = 20.
-      Ellipse(pos=(touch_x - d / 2, touch_y - d / 2), size=(d, d))
+      #d = 20.
+      Ellipse(pos=(touch_x - self.d / 2, touch_y - self.d / 2), size=(self.d, self.d))
 
   def calc_coord(self):
     print('Вычисляем координаты')
@@ -166,7 +169,7 @@ class Square(Widget):
     print('draw_up')
     #print('touch_x:', round(self.touch_x))
     #print('touch_y:', round(self.touch_y))
-    if self.touch_y > 1890:
+    if self.touch_y > (self.p1_y + self.square_side-5):
       return
     self.remove_last(self.last_touch_x, self.last_touch_y)
     self.touch_y += 10
@@ -178,7 +181,7 @@ class Square(Widget):
     print('draw_down')
     #print('touch_x:', self.touch_x)
     #print('touch_y:', self.touch_y)
-    if self.touch_y < 1005:
+    if self.touch_y < self.p1_y + 5:
       return
     self.remove_last(self.last_touch_x, self.last_touch_y)
     self.touch_y -= 10
@@ -190,7 +193,7 @@ class Square(Widget):
     print('draw_left')
     #print('touch_x:', self.touch_x)
     #print('touch_y:', self.touch_y)
-    if self.touch_x < 95:
+    if self.touch_x < self.p1_x + 5:
       return
     self.remove_last(self.last_touch_x, self.last_touch_y)
     self.touch_x -= 10
@@ -202,7 +205,7 @@ class Square(Widget):
     print('draw_right')
     #print('touch_x:', self.touch_x)
     #print('touch_y:', self.touch_y)
-    if self.touch_x > 975:
+    if self.touch_x > (self.p1_x + self.square_side - 10):
       return
     self.remove_last(self.last_touch_x, self.last_touch_y)
     self.touch_x += 10

@@ -58,33 +58,35 @@
     text: 'f'
     
   Label:
-    pos: 40, 2100
-    size: 200, 50
+    id: a_coord
+    pos: root.p1_x, root.p1_y * 1.3 + root.square_side
+    size: root.p1_y, root.p1_y / 4
     text: 'a_coord: ' + str(round(root.a_coord))
   
   Label:
-    pos: 40, 2000
-    size: 200, 50
+    id: b_coord
+    pos: a_coord.pos[0], root.p1_y * 1.1 + root.square_side
+    size: a_coord.size[0], a_coord.size[1]
     text: 'b_coord: ' + str(round(root.b_coord))
   
   Label:
-    pos: 340, 2100
-    size: 200, 50
+    pos: a_coord.pos[0] * 2, a_coord.pos[1]
+    size: a_coord.size[0], a_coord.size[1]
     text: 'c_coord: ' + str(round(root.c_coord))
     
   Label:
-    pos: 340, 2000
-    size: 200, 50
+    pos: a_coord.pos[0] * 2, b_coord.pos[1]
+    size: a_coord.size[0], a_coord.size[1]
     text: 'd_coord: ' + str(round(root.d_coord))
     
   Label:
-    pos: 640, 2100
-    size: 200, 50
+    pos: a_coord.pos[0] * 3, a_coord.pos[1]
+    size: a_coord.size[0], a_coord.size[1]
     text: 'e_coord: ' + str(round(root.e_coord))
     
   Label:
-    pos: 640, 2000
-    size: 200, 50
+    pos: a_coord.pos[0] * 3, b_coord.pos[1]
+    size: a_coord.size[0], a_coord.size[1]
     text: 'f_coord: ' + str(round(root.f_coord))
     #Buttons:
       #text: 'idi na huy'
@@ -114,7 +116,7 @@
     id: up_but
     text: 'up'
     pos: root.width / 2 - self.size[0], self.size[1]
-    size: 50, 50
+    size: root.width / 14, root.width / 14
     on_press: root.up()
     
   Button:
