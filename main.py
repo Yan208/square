@@ -91,21 +91,21 @@ class Square(Widget):
 
   def calc_coord(self):
     print('Вычисляем координаты')
-    self.a_coord = (self.touch_x - 90) * 100 / (980 - 90)
-    self.remove_last(self.last_touch_x, 1005)
-    self.draw_coord(self.touch_x, 1005)
+    self.a_coord = (self.touch_x - self.p1_x) * 100 / self.square_side
+    self.remove_last(self.last_touch_x, self.p1_y)
+    self.draw_coord(self.touch_x, self.p1_y)
     
-    self.b_coord = (self.touch_y - 1000) * 100 / (1895 - 1000)
-    self.remove_last(90, self.last_touch_y)
-    self.draw_coord(90, self.touch_y)
+    self.b_coord = (self.touch_y - self.p1_y) * 100 / self.square_side
+    self.remove_last(self.p1_x, self.last_touch_y)
+    self.draw_coord(self.p1_x, self.touch_y)
     
     self.c_coord = 100 - self.a_coord
-    self.remove_last(self.last_touch_x, 1895)
-    self.draw_coord(self.touch_x, 1895)
+    self.remove_last(self.last_touch_x, self.p1_y + self.square_side)
+    self.draw_coord(self.touch_x, self.p1_y + self.square_side)
     
     self.d_coord = 100 - self.b_coord
-    self.remove_last(980, self.last_touch_y)
-    self.draw_coord(980, self.touch_y)
+    self.remove_last(self.p1_x + self.square_side, self.last_touch_y)
+    self.draw_coord(self.p1_x + self.square_side, self.touch_y)
     #print('a:', self.a_coord, '   b:', self.b_coord)
     #print('c:', self.c_coord, '   d:', self.d_coord)
     
@@ -114,12 +114,12 @@ class Square(Widget):
     #print('angle:', round(angle_dot))
     
     # вычисляем e_coord
-    distance_gipot_e = Vector(90,1895).distance((self.touch_x, self.touch_y))
-    distance_e = Vector(90,1895).distance((980, 1005))
+    distance_gipot_e = Vector(self.p1_x,self.p1_y + self.square_side).distance((self.touch_x, self.touch_y))
+    distance_e = Vector(self.p1_x, self.p1_y + self.square_side).distance((self.p1_x + self.square_side, self.p1_y))
     #print('гипотинуза:', round(distance_gipot_e))
     p1 = (self.touch_x, self.touch_y)
-    p2 = (93, 1895) # вершина угла
-    p3 = (980, 1005)
+    p2 = (self.p1_x, self.p1_y + self.square_side) # вершина угла
+    p3 = (self.p1_x + self.square_side, self.p1_y)
     ang = self.angle_between_lines(p1,p2, p3)
     #print("угол из функции:", round(ang, 1))
     e_prom = abs(math.cos(ang) * distance_gipot_e)
@@ -128,20 +128,20 @@ class Square(Widget):
     #print('e_coord: ', round(self.e_coord))
     
     # отрисовка e_coord
-    e_x_coord = e_prom * math.cos(45*math.pi/180) + 90
-    e_y_coord = 1895 - e_prom * math.sin(45*math.pi/180)
+    e_x_coord = e_prom * math.cos(45*math.pi/180) + self.p1_x
+    e_y_coord = (self.p1_y + self.square_side) - e_prom * math.sin(45*math.pi/180)
     self.remove_last(self.last_e_x_coord, self.last_e_y_coord)
     self.draw_coord(e_x_coord, e_y_coord)
     self.last_e_x_coord = e_x_coord
     self.last_e_y_coord = e_y_coord
     
     # вычисляем f_coord
-    distance_gipot_f = Vector(980,1895).distance((self.touch_x, self.touch_y))
-    distance_f = Vector(980,1895).distance((90, 1005))
+    distance_gipot_f = Vector(self.p1_x + self.square_side, self.p1_y + self.square_side).distance((self.touch_x, self.touch_y))
+    distance_f = Vector(self.p1_x + self.square_side, self.p1_y + self.square_side).distance((self.p1_x, self.p1_y))
     #print('гипотинуза f:', round(distance_gipot_f))
     p1 = (self.touch_x, self.touch_y)
-    p2 = (980, 1895) # вершина угла
-    p3 = (90, 1005)
+    p2 = (self.p1_x + self.square_side, self.p1_y + self.square_side) # вершина угла
+    p3 = (self.p1_x, self.p1_y)
     ang_f = self.angle_between_lines(p1,p2, p3)
     #print("угол из функции:", round(ang_f, 1))
     f_prom = abs(math.cos(ang_f) * distance_gipot_f)
@@ -149,8 +149,8 @@ class Square(Widget):
     #print('f_coord: ', round(self.f_coord))
     
     # отрисовка f_cood
-    f_x_coord = 980 - f_prom * math.cos(45*math.pi/180)
-    f_y_coord = 1895 - f_prom * math.sin(45*math.pi/180)
+    f_x_coord = (self.p1_x + self.square_side) - f_prom * math.cos(45*math.pi/180)
+    f_y_coord = (self.p1_y + self.square_side) - f_prom * math.sin(45*math.pi/180)
     self.remove_last(self.last_f_x_coord, self.last_f_y_coord)
     self.draw_coord(f_x_coord, f_y_coord)
     self.last_f_x_coord = f_x_coord
