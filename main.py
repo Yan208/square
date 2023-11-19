@@ -3,7 +3,7 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.properties import (
-    NumericProperty, StringProperty,ReferenceListProperty, ObjectProperty
+    NumericProperty, StringProperty, ListProperty, ObjectProperty
 )
 from kivy.vector import Vector
 from kivy.clock import Clock
@@ -40,8 +40,10 @@ class Square(Widget):
   last_f_x_coord = NumericProperty(1)
   last_f_y_coord = NumericProperty(1)
 
-  p1_x = NumericProperty(30)
+  p1_x = NumericProperty(130)
   p1_y = NumericProperty(200)
+  square_side = NumericProperty(500)
+  #p1_y = NumericProperty(200)
 
   def update(self, dt):
     pass
@@ -152,7 +154,10 @@ class Square(Widget):
     self.last_f_y_coord = f_y_coord
 
   def is_point_square(self):
-    if self.touch_x < 95 or self.touch_x > 975 or self.touch_y < 1005 or self.touch_y > 1890:
+    if ( (self.touch_x < self.p1_x) or
+         (self.touch_x > (self.p1_x + self.square_side)) or
+         (self.touch_y < self.p1_y) or
+          self.touch_y > (self.p1_y + self.square_side) ):
       return False
     else:
       return True
@@ -232,6 +237,7 @@ class Square(Widget):
     super(Square, self).__init__(**kwargs)
     global self_square
     self_square = self
+
 
 #     if touch.x < self.width / 3:
 #            self.player1.center_y = touch.y

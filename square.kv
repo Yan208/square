@@ -10,42 +10,51 @@
   canvas.after:
     Color:
       rgba: 1,1,1,1
-    
+
+    # Рисуем квадрат
     Line:
-      points: [root.p1_x, root.p1_y, 30, 700, 980, 1895, 980, 1005, 90, 1005]
+      #           p1: 50, 200                       p2: 50, 600                                 p3: 650, 600
+      points: [ (root.p1_x, root.p1_y), (root.p1_x, root.p1_y+root.square_side), (root.p1_x+root.square_side, root.p1_y+root.square_side) ]
+      width: 1
+
+    Line:
+      #                p3: 650, 600                                            p4: 650, 200                            p5: 50, 200
+      points: [ (root.p1_x+root.square_side, root.p1_y+root.square_side), (root.p1_x+root.square_side, root.p1_y), (root.p1_x, root.p1_y) ]
+      width: 1
+
+    Line:
+      points: [root.p1_x, root.p1_y, root.p1_x+root.square_side, root.p1_y+root.square_side]
       width: 1
     Line:
-      points: [90, 1005, 980, 1895]
-      width: 1
-    Line:
-      points: [90, 1895, 980, 1005]
+      points: [root.p1_x, root.p1_y+root.square_side, root.p1_x+root.square_side, root.p1_y]
       width: 1
     
   Label:
     id: a_label
-    pos: 490, 900
+    pos: root.p1_x * 2.5 , root.p1_y / 1.5
     #font_size: 50
     text: 'a'
   
   Label:
     id: b_label
-    pos: 10, 1400
+    pos: root.p1_x / 2, root.p1_y * 2
     text: 'b'
   
   Label:
-    pos: a_label.pos[0], 1900
+    pos: a_label.pos[0], (root.p1_y + root.square_side) * 0.95
     text: 'c'
   
   Label:
-    pos: 960, b_label.pos[1]
+    pos: root.p1_x * 4.6, b_label.pos[1]
     text: 'd'
     
   Label:
-    pos: 300, 1500
+    id: e_label
+    pos: root.p1_x * 1.5, root.square_side
     text: 'e'
 
   Label:
-    pos: 650, 1500
+    pos: root.p1_x * 3.6, e_label.pos[1]
     text: 'f'
     
   Label:
