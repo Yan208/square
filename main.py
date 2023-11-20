@@ -7,7 +7,6 @@ from kivy.properties import (
 )
 from kivy.vector import Vector
 from kivy.graphics import Color, Ellipse
-# import math
 from math import atan2, cos, pi, sin
 from kivy.config import Config
 Config.set('graphics', 'width', '800')
@@ -37,13 +36,10 @@ class Square(Widget):
   last_f_x_coord = NumericProperty(1)
   last_f_y_coord = NumericProperty(1)
 
-  # p1_x = 130
   p1_x = NumericProperty(130)
   p1_y = NumericProperty(200)
   square_side = NumericProperty(500)
-
   d = NumericProperty(10)
-  #p1_y = NumericProperty(200)
 
   def update(self, dt):
     pass
@@ -51,16 +47,11 @@ class Square(Widget):
   def remove_last(self, last_touch_x, last_touch_y):
     with self.canvas:
       Color(0, 0, 0)
-      #d = 20.
       Ellipse(pos=(last_touch_x - self.d / 2, last_touch_y - self.d / 2), size=(self.d, self.d))
 
   def draw_new(self, touch_x, touch_y):
-    print('draw new.')
-    print('touch_x: ', round(touch_x))
-    print('touch_y:', round(touch_y))
     with self.canvas:
       Color(0.5, 1, 1)
-      #d = 20.
       Ellipse(pos=(touch_x - self.d / 2, touch_y - self.d / 2), size=(self.d, self.d))
 
   def last_save(self):
@@ -71,23 +62,14 @@ class Square(Widget):
     v1 = (p2[0] - p1[0], p2[1] - p1[1])
     v2 = (p3[0] - p2[0], p3[1] - p2[1])
     angle = atan2(v2[1], v2[0]) - atan2(v1[1], v1[0])
-    #angle = abs(angle)
-    #angle = math.degrees(angle)%180
-    # если нужен острый угол
-    #return min(180 - angle, angle)
     return angle
 
   def draw_coord(self, touch_x, touch_y):
-    print('draw coord.')
-    print('touch_x: ', round(touch_x))
-    print('touch_y:', round(touch_y))
     with self.canvas:
       Color(1, 0, 0)
-      #d = 20.
       Ellipse(pos=(touch_x - self.d / 2, touch_y - self.d / 2), size=(self.d, self.d))
 
   def calc_coord(self):
-    print('Вычисляем координаты')
     self.a_coord = (self.touch_x - self.p1_x) * 100 / self.square_side
     self.remove_last(self.last_touch_x, self.p1_y)
     self.draw_coord(self.touch_x, self.p1_y)
@@ -103,28 +85,16 @@ class Square(Widget):
     self.d_coord = 100 - self.b_coord
     self.remove_last(self.p1_x + self.square_side, self.last_touch_y)
     self.draw_coord(self.p1_x + self.square_side, self.touch_y)
-    #print('a:', self.a_coord, '   b:', self.b_coord)
-    #print('c:', self.c_coord, '   d:', self.d_coord)
-    
-    # неправильно работает
-    #angle_dot = Vector(980, 1895).angle((self.touch_x, self.touch_y))
-    #print('angle:', round(angle_dot))
-    
-    # вычисляем e_coord
+
     distance_gipot_e = Vector(self.p1_x,self.p1_y + self.square_side).distance((self.touch_x, self.touch_y))
     distance_e = Vector(self.p1_x, self.p1_y + self.square_side).distance((self.p1_x + self.square_side, self.p1_y))
-    #print('гипотинуза:', round(distance_gipot_e))
     p1 = (self.touch_x, self.touch_y)
     p2 = (self.p1_x, self.p1_y + self.square_side) # вершина угла
     p3 = (self.p1_x + self.square_side, self.p1_y)
     ang = self.angle_between_lines(p1,p2, p3)
-    #print("угол из функции:", round(ang, 1))
     e_prom = abs(cos(ang) * distance_gipot_e)
     self.e_coord = e_prom * 100 / distance_e
-    #self.e_coord = abs(self.e_coord)
-    #print('e_coord: ', round(self.e_coord))
-    
-    # отрисовка e_coord
+
     e_x_coord = e_prom * cos(45*pi/180) + self.p1_x
     e_y_coord = (self.p1_y + self.square_side) - e_prom * sin(45*pi/180)
     self.remove_last(self.last_e_x_coord, self.last_e_y_coord)
@@ -135,17 +105,13 @@ class Square(Widget):
     # вычисляем f_coord
     distance_gipot_f = Vector(self.p1_x + self.square_side, self.p1_y + self.square_side).distance((self.touch_x, self.touch_y))
     distance_f = Vector(self.p1_x + self.square_side, self.p1_y + self.square_side).distance((self.p1_x, self.p1_y))
-    #print('гипотинуза f:', round(distance_gipot_f))
     p1 = (self.touch_x, self.touch_y)
     p2 = (self.p1_x + self.square_side, self.p1_y + self.square_side) # вершина угла
     p3 = (self.p1_x, self.p1_y)
     ang_f = self.angle_between_lines(p1,p2, p3)
-    #print("угол из функции:", round(ang_f, 1))
     f_prom = abs(cos(ang_f) * distance_gipot_f)
     self.f_coord = f_prom * 100 / distance_f
-    #print('f_coord: ', round(self.f_coord))
-    
-    # отрисовка f_cood
+
     f_x_coord = (self.p1_x + self.square_side) - f_prom * cos(45*pi/180)
     f_y_coord = (self.p1_y + self.square_side) - f_prom * sin(45*pi/180)
     self.remove_last(self.last_f_x_coord, self.last_f_y_coord)
@@ -163,9 +129,6 @@ class Square(Widget):
       return True
 
   def draw_up(self):
-    print('draw_up')
-    #print('touch_x:', round(self.touch_x))
-    #print('touch_y:', round(self.touch_y))
     if self.touch_y > (self.p1_y + self.square_side-5):
       return
     self.remove_last(self.last_touch_x, self.last_touch_y)
@@ -175,9 +138,6 @@ class Square(Widget):
     self.last_save()
 
   def draw_down(self):
-    print('draw_down')
-    #print('touch_x:', self.touch_x)
-    #print('touch_y:', self.touch_y)
     if self.touch_y < self.p1_y + 5:
       return
     self.remove_last(self.last_touch_x, self.last_touch_y)
@@ -187,9 +147,6 @@ class Square(Widget):
     self.last_save()
 
   def draw_left(self):
-    print('draw_left')
-    #print('touch_x:', self.touch_x)
-    #print('touch_y:', self.touch_y)
     if self.touch_x < self.p1_x + 5:
       return
     self.remove_last(self.last_touch_x, self.last_touch_y)
@@ -199,9 +156,6 @@ class Square(Widget):
     self.last_save()
 
   def draw_right(self):
-    print('draw_right')
-    #print('touch_x:', self.touch_x)
-    #print('touch_y:', self.touch_y)
     if self.touch_x > (self.p1_x + self.square_side - 10):
       return
     self.remove_last(self.last_touch_x, self.last_touch_y)
@@ -211,38 +165,19 @@ class Square(Widget):
     self.last_save()
 
   def on_touch_down(self, touch):
-    print('touch_down')
-    #print('self.width', self.width)
-    #print('self.height', self.height)
-    #print('self.center', self.center)
-    #print('self.pos', self.pos)
-    #print('self.size', self.size)
-    #if not (touch.x < 95 or touch.x > 975 or touch.y < 1005 or touch.y > 1890):
     self.touch_x = touch.x
     self.touch_y = touch.y
-    print('self.touch_x: ', round(self.touch_x), 'self.touch_y:', round(self.touch_y))
-    # точка в квадрате?
     if not self.is_point_square():
       return
-    # зачеркиваем старую точку
     self.remove_last(self.last_touch_x, self.last_touch_y)
-    # вычисляем координаты
     self.calc_coord()
-    # рисуем новую точку
     self.draw_new(self.touch_x, self.touch_y)
-    # сохраняем прошедшую точку
     self.last_save()
 
   def __init__(self, **kwargs):
     super(Square, self).__init__(**kwargs)
     global self_square
     self_square = self
-
-
-#     if touch.x < self.width / 3:
-#            self.player1.center_y = touch.y
-#     if touch.x > self.width - self.width / 3:
-#            self.player2.center_y = touch.y
 
 
 class Buttons(Widget):
@@ -274,7 +209,6 @@ class SquareApp(App):
       self.but = Buttons()
       parent.add_widget(self.sq)
       parent.add_widget(self.but)
-      #Clock.schedule_interval(self.sq.update, 1.0 / 60.0)
       return parent
 
 
