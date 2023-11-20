@@ -3,15 +3,12 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.properties import (
-    NumericProperty, StringProperty, ListProperty, ObjectProperty
+    NumericProperty, StringProperty, ObjectProperty
 )
 from kivy.vector import Vector
-from kivy.clock import Clock
 from kivy.graphics import Color, Ellipse
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-import math
+# import math
+from math import atan2, cos, pi, sin
 from kivy.config import Config
 Config.set('graphics', 'width', '800')
 Config.set('graphics', 'height', '800')
@@ -73,7 +70,7 @@ class Square(Widget):
   def angle_between_lines(self, p1, p2, p3):
     v1 = (p2[0] - p1[0], p2[1] - p1[1])
     v2 = (p3[0] - p2[0], p3[1] - p2[1])
-    angle = math.atan2(v2[1], v2[0]) - math.atan2(v1[1], v1[0])
+    angle = atan2(v2[1], v2[0]) - atan2(v1[1], v1[0])
     #angle = abs(angle)
     #angle = math.degrees(angle)%180
     # если нужен острый угол
@@ -122,14 +119,14 @@ class Square(Widget):
     p3 = (self.p1_x + self.square_side, self.p1_y)
     ang = self.angle_between_lines(p1,p2, p3)
     #print("угол из функции:", round(ang, 1))
-    e_prom = abs(math.cos(ang) * distance_gipot_e)
+    e_prom = abs(cos(ang) * distance_gipot_e)
     self.e_coord = e_prom * 100 / distance_e
     #self.e_coord = abs(self.e_coord)
     #print('e_coord: ', round(self.e_coord))
     
     # отрисовка e_coord
-    e_x_coord = e_prom * math.cos(45*math.pi/180) + self.p1_x
-    e_y_coord = (self.p1_y + self.square_side) - e_prom * math.sin(45*math.pi/180)
+    e_x_coord = e_prom * cos(45*pi/180) + self.p1_x
+    e_y_coord = (self.p1_y + self.square_side) - e_prom * sin(45*pi/180)
     self.remove_last(self.last_e_x_coord, self.last_e_y_coord)
     self.draw_coord(e_x_coord, e_y_coord)
     self.last_e_x_coord = e_x_coord
@@ -144,13 +141,13 @@ class Square(Widget):
     p3 = (self.p1_x, self.p1_y)
     ang_f = self.angle_between_lines(p1,p2, p3)
     #print("угол из функции:", round(ang_f, 1))
-    f_prom = abs(math.cos(ang_f) * distance_gipot_f)
+    f_prom = abs(cos(ang_f) * distance_gipot_f)
     self.f_coord = f_prom * 100 / distance_f
     #print('f_coord: ', round(self.f_coord))
     
     # отрисовка f_cood
-    f_x_coord = (self.p1_x + self.square_side) - f_prom * math.cos(45*math.pi/180)
-    f_y_coord = (self.p1_y + self.square_side) - f_prom * math.sin(45*math.pi/180)
+    f_x_coord = (self.p1_x + self.square_side) - f_prom * cos(45*pi/180)
+    f_y_coord = (self.p1_y + self.square_side) - f_prom * sin(45*pi/180)
     self.remove_last(self.last_f_x_coord, self.last_f_y_coord)
     self.draw_coord(f_x_coord, f_y_coord)
     self.last_f_x_coord = f_x_coord
